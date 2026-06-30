@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechCorp Industries - AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">T</div>
+                <div class="brand-text">
+                    <h1>TechCorp</h1>
+                    <span>INDUSTRIES</span>
+                </div>
+            </div>
+            
+            <div class="server-status-card">
+                <div class="status-header">
+                    <span class="status-dot disconnected" id="status-dot"></span>
+                    <span class="status-label" id="status-label">Serveur Déconnecté</span>
+                </div>
+                <div class="status-details">
+                    <span>Ollama AI (phi3.5)</span>
+                    <span class="endpoint">localhost:11434</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" onclick="clearChat()">
+                    <span class="nav-icon">💬</span>
+                    <span>Nouvelle Session</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <p>Équipe Technique TechCorp &copy; 2026</p>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-area">
+            <header class="chat-header">
+                <h2>Assistant Financier & R&D</h2>
+                <div class="header-badge">Production Ready</div>
+            </header>
+
+            <div class="messages-container" id="messages-container">
+                <!-- Welcome Message -->
+                <div class="message system-message">
+                    <div class="message-content">
+                        <h3>Bienvenue sur TechCorp AI Chat</h3>
+                        <p>Cet assistant est configuré avec notre modèle financier interne sécurisé. Posez vos questions relatives aux investissements, budgets et analyses de marché.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-container">
+                <form id="chat-form" onsubmit="sendMessage(event)">
+                    <input type="text" id="user-input" placeholder="Posez votre question financière ici..." autocomplete="off" required>
+                    <button type="submit" class="send-btn" id="send-btn">
+                        <svg viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

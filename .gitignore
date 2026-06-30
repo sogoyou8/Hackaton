@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints
+venv/
+.venv/
+env/
+
+# IDEs & System
+.DS_Store
+.vscode/
+.idea/
+
+# Local model weights / Large files
+models/
+model_repository/phi35_financial/1/model.onnx
+*.onnx
+*.bin
+*.gguf
+*.tar.gz
+*.zip
+
+# Local environments / test files
+.env
+datasets/dataset_v0.json
+datasets/finance_dataset_final.json
+datasets/test_dataset_16000.json
