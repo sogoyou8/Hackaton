@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // Load Settings into Inputs
 function initSettings() {
     document.getElementById('setting-endpoint').value = OLLAMA_HOST;
-    document.getElementById('setting-model').value = MODEL_NAME;
     updateDisplays();
 }
 
@@ -36,7 +35,7 @@ function updateDisplays() {
 
 function applySettings() {
     const endpointInput = document.getElementById('setting-endpoint').value.trim();
-    const modelInput = document.getElementById('setting-model').value.trim();
+    const modelInput = document.getElementById('setting-model').value;
     
     if (!endpointInput || !modelInput) {
         alert('Veuillez remplir tous les champs.');
@@ -73,12 +72,73 @@ async function checkConnection() {
         if (response.ok) {
             statusDot.className = 'status-dot connected';
             statusLabel.textContent = 'Serveur Connecté';
+            await loadAvailableModels();
         } else {
             throw new Error();
         }
     } catch (e) {
         statusDot.className = 'status-dot disconnected';
         statusLabel.textContent = 'Serveur Déconnecté';
+        
+        // Reset select to default when disconnected
+        const select = document.getElementById('setting-model');
+        select.innerHTML = '<option value="techcorp-finance">techcorp-finance (défaut)</option>';
+    }
+}
+
+// Dynamically fetch models list from Ollama
+async function loadAvailableModels() {
+    try {
+        const response = await fetch(`${OLLAMA_HOST}/api/tags`);
+        if (!response.ok) return;
+        const data = await response.json();
+        
+        const select = document.getElementById('setting-model');
+        const currentSelection = select.value;
+        
+        // Only rebuild options if the list actually changed or was empty
+        const modelNames = data.models ? data.models.map(m => m.name) : [];
+        const existingOptions = Array.from(select.options).map(o => o.value);
+        
+        const listsMatch = modelNames.length === existingOptions.length && 
+                           modelNames.every(name => existingOptions.includes(name));
+                           
+        if (listsMatch && select.options.length > 0 && select.options[0].value !== "techcorp-finance" && select.options[0].textContent !== "Chargement des modèles...") {
+            return; // Don't redraw to avoid flickering
+        }
+        
+        select.innerHTML = '';
+        
+        if (modelNames.length > 0) {
+            modelNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                select.appendChild(option);
+            });
+            
+            // Restore selection or select best match
+            if (modelNames.includes(currentSelection)) {
+                select.value = currentSelection;
+            } else if (modelNames.includes(MODEL_NAME)) {
+                select.value = MODEL_NAME;
+            } else {
+                select.value = modelNames[0];
+            }
+            
+            if (MODEL_NAME !== select.value) {
+                MODEL_NAME = select.value;
+                localStorage.setItem('ollama_model', MODEL_NAME);
+                updateDisplays();
+            }
+        } else {
+            const option = document.createElement('option');
+            option.value = 'techcorp-finance';
+            option.textContent = 'Aucun modèle trouvé';
+            select.appendChild(option);
+        }
+    } catch (e) {
+        console.error('Erreur de chargement des modèles:', e);
     }
 }
 

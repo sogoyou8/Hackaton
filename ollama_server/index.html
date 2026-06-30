@@ -37,8 +37,10 @@
                     <input type="text" id="setting-endpoint" value="http://localhost:11434">
                 </div>
                 <div class="setting-group">
-                    <label for="setting-model">Nom du Modèle</label>
-                    <input type="text" id="setting-model" value="techcorp-finance">
+                    <label for="setting-model">Modèle Actif</label>
+                    <select id="setting-model">
+                        <option value="techcorp-finance">Chargement des modèles...</option>
+                    </select>
                 </div>
                 <button class="save-settings-btn" id="save-settings-btn" onclick="applySettings()">Appliquer</button>
             </div>
