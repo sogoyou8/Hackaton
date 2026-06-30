@@ -28,6 +28,7 @@
                     <span id="active-model-display">Ollama AI (techcorp-finance)</span>
                     <span class="endpoint" id="active-endpoint-display">localhost:11434</span>
                 </div>
+                <button class="help-link-btn" onclick="openHelpModal()">Comment se connecter ?</button>
             </div>
 
             <div class="settings-card">
@@ -85,6 +86,56 @@
                 </form>
             </div>
         </main>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeHelpModal()">&times;</span>
+            <h2>🔌 Guide de connexion local (CORS)</h2>
+            <p>Pour faire fonctionner le chatbot en ligne avec votre serveur local, suivez ces instructions :</p>
+            
+            <div class="tabs">
+                <button class="tab-btn active" id="tab-btn-win" onclick="switchTab('win')">Windows</button>
+                <button class="tab-btn" id="tab-btn-mac" onclick="switchTab('mac')">macOS / Linux</button>
+            </div>
+            
+            <div id="tab-win" class="tab-content active">
+                <ol>
+                    <li>Quittez Ollama en arrière-plan (clic droit sur la tête de lama près de l'horloge -> <strong>Quit Ollama</strong>).</li>
+                    <li>Ouvrez <strong>PowerShell</strong> et exécutez ces commandes :
+                        <pre><code>$env:OLLAMA_ORIGINS="*"
+ollama serve</code></pre>
+                    </li>
+                </ol>
+            </div>
+            
+            <div id="tab-mac" class="tab-content" style="display:none;">
+                <ol>
+                    <li>Arrêtez le service Ollama existant dans votre terminal :
+                        <pre><code># macOS (si lance via launchd)
+launchctl unload ~/Library/LaunchAgents/ollama.plist
+
+# Linux
+sudo systemctl stop ollama</code></pre>
+                    </li>
+                    <li>Lancez Ollama avec l'autorisation réseau :
+                        <pre><code>OLLAMA_ORIGINS="*" ollama serve</code></pre>
+                    </li>
+                </ol>
+            </div>
+            
+            <div class="chrome-warning">
+                <h3>⚠️ Action requise sur votre Navigateur</h3>
+                <p>Les navigateurs bloquent les requêtes non sécurisées (HTTP) depuis un site en ligne (HTTPS). Pour débloquer la connexion :</p>
+                <ol>
+                    <li>Cliquez sur l'icône de réglages (curseurs ou cadenas) à gauche de l'URL dans la barre d'adresse.</li>
+                    <li>Cliquez sur <strong>Paramètres des sites</strong>.</li>
+                    <li>Trouvez la ligne <strong>Contenu non sécurisé</strong> et changez-la en <strong>Autoriser</strong>.</li>
+                    <li>Revenez ici et <strong>actualisez la page (F5)</strong>.</li>
+                </ol>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>

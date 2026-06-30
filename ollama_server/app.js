@@ -231,3 +231,42 @@ function clearChat() {
         </div>
     `;
 }
+
+// Help Modal Controls
+function openHelpModal() {
+    const modal = document.getElementById('help-modal');
+    modal.style.display = 'flex';
+}
+
+function closeHelpModal() {
+    const modal = document.getElementById('help-modal');
+    modal.style.display = 'none';
+}
+
+// Close modal if user clicks outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('help-modal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+}
+
+// Tab switcher for Windows vs macOS/Linux
+function switchTab(os) {
+    const winTab = document.getElementById('tab-win');
+    const macTab = document.getElementById('tab-mac');
+    const winBtn = document.getElementById('tab-btn-win');
+    const macBtn = document.getElementById('tab-btn-mac');
+    
+    if (os === 'win') {
+        winTab.style.display = 'block';
+        macTab.style.display = 'none';
+        winBtn.classList.add('active');
+        macBtn.classList.remove('active');
+    } else {
+        winTab.style.display = 'none';
+        macTab.style.display = 'block';
+        winBtn.classList.remove('active');
+        macBtn.classList.add('active');
+    }
+}
