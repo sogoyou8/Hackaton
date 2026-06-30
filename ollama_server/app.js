@@ -1,5 +1,5 @@
-const OLLAMA_HOST = 'http://localhost:11434';
-const MODEL_NAME = 'phi3.5';
+let OLLAMA_HOST = localStorage.getItem('ollama_host') || 'http://localhost:11434';
+let MODEL_NAME = localStorage.getItem('ollama_model') || 'techcorp-finance';
 
 const messagesContainer = document.getElementById('messages-container');
 const userInput = document.getElementById('user-input');
@@ -12,9 +12,55 @@ let connectionCheckInterval;
 // Load history on start
 document.addEventListener('DOMContentLoaded', () => {
     loadChatHistory();
+    initSettings();
     checkConnection();
     connectionCheckInterval = setInterval(checkConnection, 5000);
 });
+
+// Load Settings into Inputs
+function initSettings() {
+    document.getElementById('setting-endpoint').value = OLLAMA_HOST;
+    document.getElementById('setting-model').value = MODEL_NAME;
+    updateDisplays();
+}
+
+function updateDisplays() {
+    document.getElementById('active-model-display').textContent = `Ollama AI (${MODEL_NAME})`;
+    try {
+        const url = new URL(OLLAMA_HOST);
+        document.getElementById('active-endpoint-display').textContent = url.host;
+    } catch(e) {
+        document.getElementById('active-endpoint-display').textContent = OLLAMA_HOST;
+    }
+}
+
+function applySettings() {
+    const endpointInput = document.getElementById('setting-endpoint').value.trim();
+    const modelInput = document.getElementById('setting-model').value.trim();
+    
+    if (!endpointInput || !modelInput) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+    }
+    
+    OLLAMA_HOST = endpointInput;
+    MODEL_NAME = modelInput;
+    
+    localStorage.setItem('ollama_host', OLLAMA_HOST);
+    localStorage.setItem('ollama_model', MODEL_NAME);
+    
+    updateDisplays();
+    checkConnection();
+    
+    // Visual feedback for applying settings
+    const btn = document.getElementById('save-settings-btn');
+    btn.textContent = 'Appliqué !';
+    btn.style.backgroundColor = 'var(--success)';
+    setTimeout(() => {
+        btn.textContent = 'Appliquer';
+        btn.style.backgroundColor = 'var(--primary)';
+    }, 1500);
+}
 
 // Check connection to Ollama Server
 async function checkConnection() {

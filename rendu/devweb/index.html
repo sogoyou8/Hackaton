@@ -25,9 +25,22 @@
                     <span class="status-label" id="status-label">Serveur Déconnecté</span>
                 </div>
                 <div class="status-details">
-                    <span>Ollama AI (phi3.5)</span>
-                    <span class="endpoint">localhost:11434</span>
+                    <span id="active-model-display">Ollama AI (techcorp-finance)</span>
+                    <span class="endpoint" id="active-endpoint-display">localhost:11434</span>
                 </div>
+            </div>
+
+            <div class="settings-card">
+                <h3>Configuration</h3>
+                <div class="setting-group">
+                    <label for="setting-endpoint">Adresse API Ollama</label>
+                    <input type="text" id="setting-endpoint" value="http://localhost:11434">
+                </div>
+                <div class="setting-group">
+                    <label for="setting-model">Nom du Modèle</label>
+                    <input type="text" id="setting-model" value="techcorp-finance">
+                </div>
+                <button class="save-settings-btn" id="save-settings-btn" onclick="applySettings()">Appliquer</button>
             </div>
 
             <nav class="nav-menu">
